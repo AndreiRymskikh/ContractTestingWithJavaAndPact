@@ -50,8 +50,7 @@ public class LibraryController {
 	private static final Logger logger=  LoggerFactory.getLogger(LibraryController.class);
 	
 	@PostMapping("/addBook")
-	public ResponseEntity addBookImplementation(@RequestBody Library library)
-	{
+	public ResponseEntity addBookImplementation(@RequestBody Library library) {
 		String id =libraryService.buildId(library.getIsbn(),library.getAisle());//dependenyMock
 		AddResponse ad =new AddResponse();
 		
@@ -80,8 +79,7 @@ public class LibraryController {
 		}
 	@CrossOrigin
 	@RequestMapping("/getBooks/{id}")
-	public Library getBookById(@PathVariable(value="id")String id)
-	{
+	public Library getBookById(@PathVariable(value="id")String id) {
 		try {
 		Library lib =repository.findById(id).get();
 		return lib;
@@ -93,14 +91,12 @@ public class LibraryController {
 	}
 	@CrossOrigin
 	@GetMapping("getBooks/author")
-	public List<Library> getBookByAuthorName(@RequestParam(value="authorname")String authorname)
-	{
+	public List<Library> getBookByAuthorName(@RequestParam(value="authorname")String authorname) {
 		return repository.findAllByAuthor(authorname);
 	}
 	
 	@PutMapping("/updateBook/{id}")
-	public ResponseEntity<Library> updateBook(@PathVariable(value="id")String id,@RequestBody Library library)
-	{
+	public ResponseEntity<Library> updateBook(@PathVariable(value="id")String id,@RequestBody Library library) {
 	//	Library existingBook = repository.findById(id).get();//mock
 		Library existingBook =libraryService.getBookById(id);
 		
@@ -113,28 +109,23 @@ public class LibraryController {
 	}
 	
 	@DeleteMapping("/deleteBook")
-	public ResponseEntity<String> deleteBookById(@RequestBody Library library)
-	{
+	public ResponseEntity<String> deleteBookById(@RequestBody Library library) {
 	//	Library libdelete =repository.findById(library.getId()).get();
 		Library libdelete =libraryService.getBookById(library.getId());//mock
 		repository.delete(libdelete);
 		
 		logger.info("Book  is deleted ");
 		return new ResponseEntity<>("Book is deleted",HttpStatus.CREATED);
-		
-		}
+	}
 	
 	@GetMapping("/getBooks")
-	public List<Library> getBooks()
-	{
+	public List<Library> getBooks() {
 		return repository.findAll();
 	}
 	
 	
 	@GetMapping("/getProductDetails/{name}")
-	public SpecificProduct getProductFullDetails(@PathVariable(value="name")String name) throws JsonMappingException, JsonProcessingException
-	{
-		
+	public SpecificProduct getProductFullDetails(@PathVariable(value="name")String name) throws JsonMappingException, JsonProcessingException {
 		SpecificProduct	specificProduct = new SpecificProduct();
 		TestRestTemplate restTemplate =new TestRestTemplate();
 		Library lib = repository.findByName(name);
@@ -156,18 +147,12 @@ public class LibraryController {
 	
 		}
 		return specificProduct;
-		
-
-		
-		
-		
 	}
 	
 	
 	@CrossOrigin
 	@GetMapping("/getProductPrices")
-	public ProductsPrices getProductPrices() throws JsonMappingException, JsonProcessingException
-	{
+	public ProductsPrices getProductPrices() throws JsonMappingException, JsonProcessingException {
 		productPrices.setBooksPrice(250);
 	
 
@@ -186,9 +171,7 @@ public class LibraryController {
 		baseUrl = url;
 	}
 	
-	public AllCourseDetails[] getAllCoursesDetails() throws JsonMappingException, JsonProcessingException
-	
-	{
+	public AllCourseDetails[] getAllCoursesDetails() throws JsonMappingException, JsonProcessingException {
 		
 		TestRestTemplate restTemplate =new TestRestTemplate();
 		
@@ -197,9 +180,6 @@ public class LibraryController {
 	
 		AllCourseDetails[] allCourseDetails = mapper.readValue(response.getBody(), AllCourseDetails[].class);
 		return allCourseDetails;
-
-		
-		
 	}
 	
 }

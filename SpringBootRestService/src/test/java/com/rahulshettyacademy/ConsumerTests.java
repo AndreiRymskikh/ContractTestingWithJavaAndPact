@@ -1,6 +1,13 @@
+package com.rahulshettyacademy;
+
 import com.rahulshettyacademy.controller.LibraryController;
+import com.rahulshettyacademy.controller.ProductsPrices;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,23 +33,27 @@ public class ConsumerTests {
         return builder
         .given("courses exist")
         .uponReceiving("getting all courses details")
-        .path("/allCoursesDetails")
+        .path("/allCourseDetails")
         .willRespondWith()
         .status(200)
-        .body(PactDslJsonArray.arrayMinLike(2)
-                    .stringType("course_name")
-                    .stringType("id")
+        .body(PactDslJsonArray.arrayMinLike(3)
 				    .integerType("price", 10)
-				    .stringType("category")
                     .closeObject())
         .toPact();
     }
 
     @Test
     @PactTestFor(pactMethod = "pactGetAllCoursesDetailsConfig", port = "9999")
-    public void testAllProductsSum(MockServer mockServer) {
+    public void testAllProductsSum(MockServer mockServer) throws JsonMappingException, JsonProcessingException {
+        String expectedJson ="{\"booksPrice\":250,\"coursesPrice\":30}";
+
         libraryController.setBaseUrl(mockServer.getUrl());
-        libraryController.getProductPrices();
+
+        ProductsPrices productsPrices = libraryController.getProductPrices();
+		ObjectMapper obj = new ObjectMapper();
+		String jsonActual = obj.writeValueAsString(productsPrices);
+		
+		Assertions.assertEquals(expectedJson, jsonActual, "Not equal");
     }
     
 

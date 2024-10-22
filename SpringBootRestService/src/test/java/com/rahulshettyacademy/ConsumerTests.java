@@ -22,7 +22,7 @@ import au.com.dius.pact.core.model.annotations.Pact;
 
 @SpringBootTest
 @ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "Courses Catalogue")
+@PactTestFor(providerName = "CoursesCatalogue")
 public class ConsumerTests {
 
     @Autowired

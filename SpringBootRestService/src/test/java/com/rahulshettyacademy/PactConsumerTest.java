@@ -24,7 +24,7 @@ import au.com.dius.pact.core.model.annotations.Pact;
 
 @SpringBootTest
 @ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "CoursesCatalogue")
+@PactTestFor(providerName = "CoursesCatalogue1")
 public class PactConsumerTest {
 	
 	@Autowired
@@ -50,7 +50,7 @@ public class PactConsumerTest {
 	
 	// -> PactFlow Server  (contract file to server)
 
-		@Pact(consumer="BooksCatalogue")
+		@Pact(consumer="BooksCatalogue1")
 		public RequestResponsePact PactallCoursesDetailsPriceCheck(PactDslWithProvider builder)
 		{
 			return builder.given("courses exist")
@@ -65,7 +65,7 @@ public class PactConsumerTest {
 							
 		}
 		
-		@Pact(consumer = "BooksCatalogue")
+		@Pact(consumer = "BooksCatalogue1")
 		public RequestResponsePact getCourseByName(PactDslWithProvider builder)
 		
 		{
@@ -122,7 +122,7 @@ public class PactConsumerTest {
 		
 		
 	}
-	@Pact(consumer = "BooksCatalogue")
+	@Pact(consumer = "BooksCatalogue1")
 	public RequestResponsePact getCourseByNameNotExist(PactDslWithProvider builder)
 	
 	{

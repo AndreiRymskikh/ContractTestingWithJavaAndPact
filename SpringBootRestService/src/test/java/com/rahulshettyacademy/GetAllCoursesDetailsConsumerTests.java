@@ -23,7 +23,7 @@ import au.com.dius.pact.core.model.annotations.Pact;
 @SpringBootTest
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "CoursesCatalogue")
-public class ConsumerTests {
+public class GetAllCoursesDetailsConsumerTests {
 
     @Autowired
     private LibraryController libraryController;
@@ -55,6 +55,4 @@ public class ConsumerTests {
 		
 		Assertions.assertEquals(expectedJson, jsonActual, "Not equal");
     }
-    
-
 }

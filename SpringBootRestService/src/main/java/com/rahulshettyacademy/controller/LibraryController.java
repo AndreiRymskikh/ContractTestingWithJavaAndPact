@@ -103,8 +103,8 @@ public class LibraryController {
 		existingBook.setAisle(library.getAisle());//mock
 		existingBook.setAuthor(library.getAuthor());
 		existingBook.setBook_name(library.getBook_name());
-		repository.save(existingBook);//
-		//
+		repository.save(existingBook);
+		
 		return new ResponseEntity<Library>(existingBook,HttpStatus.OK);
 	}
 	
@@ -129,23 +129,22 @@ public class LibraryController {
 		SpecificProduct	specificProduct = new SpecificProduct();
 		TestRestTemplate restTemplate =new TestRestTemplate();
 		Library lib = repository.findByName(name);
+
 		specificProduct.setProduct(lib);
+
 		ResponseEntity<String>	response =	restTemplate.getForEntity(baseUrl+"/getCourseByName/"+name, String.class);
-		if(response.getStatusCode().is4xxClientError())
-		{
+
+		if(response.getStatusCode().is4xxClientError()) {
 			specificProduct.setMsg(name +"Category and price details are not available at this time");
 		}
-		else
-		{
+		else {
 		ObjectMapper mapper = new ObjectMapper();
-	
 		AllCourseDetails allCourseDetails = mapper.readValue(response.getBody(), AllCourseDetails.class);
-		
 		
 		specificProduct.setCategory(allCourseDetails.getCategory());
 		specificProduct.setPrice(allCourseDetails.getPrice());
-	
 		}
+
 		return specificProduct;
 	}
 	
@@ -155,7 +154,6 @@ public class LibraryController {
 	public ProductsPrices getProductPrices() throws JsonMappingException, JsonProcessingException {
 		productPrices.setBooksPrice(250);
 	
-
 		long sum = 0;
 		for(int i=0;i<getAllCoursesDetails().length;i++)
 		{
@@ -166,8 +164,8 @@ public class LibraryController {
 		
 	return productPrices;
 	}
-	public void setBaseUrl(String url)
-	{
+
+	public void setBaseUrl(String url) {
 		baseUrl = url;
 	}
 	

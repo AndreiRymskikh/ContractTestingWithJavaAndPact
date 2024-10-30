@@ -49,5 +49,4 @@ public class Library {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
 }

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Component
 public class SpecificProduct {
-
 	
 	Library product;
 	@JsonInclude(Include.NON_NULL)
@@ -37,10 +36,9 @@ public class SpecificProduct {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
 	@JsonInclude(Include.NON_DEFAULT)
 	int price;
 	@JsonInclude(Include.NON_NULL)
 	String category;
-	
-	
 }

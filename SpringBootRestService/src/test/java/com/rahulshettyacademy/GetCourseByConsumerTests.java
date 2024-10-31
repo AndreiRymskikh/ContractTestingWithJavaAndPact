@@ -1,7 +1,6 @@
 package com.rahulshettyacademy;
 
 import com.rahulshettyacademy.controller.LibraryController;
-import com.rahulshettyacademy.controller.ProductsPrices;
 import com.rahulshettyacademy.controller.SpecificProduct;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import au.com.dius.pact.consumer.MockServer;
-import au.com.dius.pact.consumer.dsl.PactDslJsonArray;
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
@@ -30,7 +28,7 @@ public class GetCourseByConsumerTests {
     @Autowired
     private LibraryController libraryController;
 
-    @Pact(consumer = "BooksCatalogue")
+    @Pact(consumer = "BooksCatalogueBy")
     public RequestResponsePact pactGetCourseByName(PactDslWithProvider builder) {
         return builder.given("Course Appium exist")
 			.uponReceiving("Get the Appium course details")

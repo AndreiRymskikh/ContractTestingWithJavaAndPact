@@ -17,7 +17,7 @@ import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("CoursesCatalogue")
 @PactFolder("pacts")
-public class ProviderTest {
+public class GetAllCoursesDetailsProviderTest {
 
     @LocalServerPort
     public int port;
@@ -35,11 +35,9 @@ public class ProviderTest {
 
     @State(value = "courses exist", action = StateChangeAction.SETUP) 
     public void courseExistSetUp() {
-
     }
 
     @State(value = "courses exist", action = StateChangeAction.TEARDOWN) 
     public void courseExistTearDown() {
-
     }
 }

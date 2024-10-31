@@ -24,7 +24,7 @@ import au.com.dius.pact.core.model.annotations.Pact;
 
 @SpringBootTest
 @ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "CoursesCatalogue")
+@PactTestFor(providerName = "CoursesCatalogueBy")
 public class GetCourseByConsumerTests {
 
     @Autowired

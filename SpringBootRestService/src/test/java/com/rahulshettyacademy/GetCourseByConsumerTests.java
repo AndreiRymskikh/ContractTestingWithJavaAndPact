@@ -55,4 +55,29 @@ public class GetCourseByConsumerTests {
 
 		Assertions.assertEquals(expectedJson, jsonActual);
     }
+
+    @Pact(consumer = "BooksCatalogueBy")
+	public RequestResponsePact getCourseByNameNotExist(PactDslWithProvider builder)	{
+		return builder.given("Course Appium does not exist","name","Appium")
+		.uponReceiving("Appium course Does not exist")
+		.path("/getCourseByName/Appium")
+		.willRespondWith()
+		.status(404)
+		.toPact();
+	}
+
+    @Test
+    @PactTestFor(pactMethod = "getCourseByNameNotExist", port = "9999")
+    public void getCourseByProductNameNotExist(MockServer mockServer) throws JsonMappingException, JsonProcessingException {
+        String expectedJson = "{\"product\":{\"book_name\":\"Appium\",\"id\":\"ttefs36\",\"isbn\":\"ttefs\",\"aisle\":36,\"author\":\"Shetty\"},\"msg\":\"AppiumCategory and price details are not available at this time\"}";
+
+        libraryController.setBaseUrl(mockServer.getUrl());
+
+        SpecificProduct specificProduct =libraryController.getProductFullDetails("Appium");
+
+        ObjectMapper obj = new ObjectMapper();
+        String jsonActual = obj.writeValueAsString(specificProduct);
+
+		Assertions.assertEquals(expectedJson, jsonActual);
+    }
 }

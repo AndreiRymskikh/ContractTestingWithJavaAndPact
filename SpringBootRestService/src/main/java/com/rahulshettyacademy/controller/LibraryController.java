@@ -74,9 +74,8 @@ public class LibraryController {
 			ad.setId(id);
 			return new ResponseEntity<AddResponse>(ad,HttpStatus.ACCEPTED);
 		}
-			//write the code to tell book already exist
-		
 		}
+		
 	@CrossOrigin
 	@RequestMapping("/getBooks/{id}")
 	public Library getBookById(@PathVariable(value="id")String id) {

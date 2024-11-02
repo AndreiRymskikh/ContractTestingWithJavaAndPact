@@ -42,9 +42,7 @@ public class testsIT {
 	ResponseEntity<String>	response =restTemplate.getForEntity("http://localhost:8080/getBooks/author?authorname=Rahul", String.class);
 	System.out.println(response.getStatusCode());
 	System.out.println(response.getBody());
-	JSONAssert.assertEquals(expected, response.getBody(), false);
-	
-		
+	JSONAssert.assertEquals(expected, response.getBody(), false);	
 	}
 	
 	@Test
@@ -58,9 +56,6 @@ public class testsIT {
 		ResponseEntity<String>	response =	restTemplate.postForEntity("http://localhost:8080/addBook", request, String.class);
 		Assert.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		Assert.assertEquals(buildLibrary().getId(),response.getHeaders().get("unique").get(0));
-		
-		
-		
 	}
 	
 	public Library buildLibrary()
@@ -72,8 +67,5 @@ public class testsIT {
 		lib.setAuthor("Rahul Shetty");
 		lib.setId("sfes322");
 		return lib;
-		
 	}
-	
-	
 }

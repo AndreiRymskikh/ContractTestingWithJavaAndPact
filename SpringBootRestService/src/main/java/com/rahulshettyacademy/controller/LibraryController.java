@@ -50,8 +50,7 @@ public class LibraryController {
 	private static final Logger logger=  LoggerFactory.getLogger(LibraryController.class);
 	
 	@PostMapping("/addBook")
-	public ResponseEntity addBookImplementation(@RequestBody Library library)
-	{
+	public ResponseEntity addBookImplementation(@RequestBody Library library) {
 		String id =libraryService.buildId(library.getIsbn(),library.getAisle());//dependenyMock
 		AddResponse ad =new AddResponse();
 		
@@ -75,13 +74,11 @@ public class LibraryController {
 			ad.setId(id);
 			return new ResponseEntity<AddResponse>(ad,HttpStatus.ACCEPTED);
 		}
-			//write the code to tell book already exist
-		
 		}
+		
 	@CrossOrigin
 	@RequestMapping("/getBooks/{id}")
-	public Library getBookById(@PathVariable(value="id")String id)
-	{
+	public Library getBookById(@PathVariable(value="id")String id) {
 		try {
 		Library lib =repository.findById(id).get();
 		return lib;
@@ -93,84 +90,69 @@ public class LibraryController {
 	}
 	@CrossOrigin
 	@GetMapping("getBooks/author")
-	public List<Library> getBookByAuthorName(@RequestParam(value="authorname")String authorname)
-	{
+	public List<Library> getBookByAuthorName(@RequestParam(value="authorname")String authorname) {
 		return repository.findAllByAuthor(authorname);
 	}
 	
 	@PutMapping("/updateBook/{id}")
-	public ResponseEntity<Library> updateBook(@PathVariable(value="id")String id,@RequestBody Library library)
-	{
+	public ResponseEntity<Library> updateBook(@PathVariable(value="id")String id,@RequestBody Library library) {
 	//	Library existingBook = repository.findById(id).get();//mock
 		Library existingBook =libraryService.getBookById(id);
 		
 		existingBook.setAisle(library.getAisle());//mock
 		existingBook.setAuthor(library.getAuthor());
 		existingBook.setBook_name(library.getBook_name());
-		repository.save(existingBook);//
-		//
+		repository.save(existingBook);
+		
 		return new ResponseEntity<Library>(existingBook,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteBook")
-	public ResponseEntity<String> deleteBookById(@RequestBody Library library)
-	{
+	public ResponseEntity<String> deleteBookById(@RequestBody Library library) {
 	//	Library libdelete =repository.findById(library.getId()).get();
 		Library libdelete =libraryService.getBookById(library.getId());//mock
 		repository.delete(libdelete);
 		
 		logger.info("Book  is deleted ");
 		return new ResponseEntity<>("Book is deleted",HttpStatus.CREATED);
-		
-		}
+	}
 	
 	@GetMapping("/getBooks")
-	public List<Library> getBooks()
-	{
+	public List<Library> getBooks() {
 		return repository.findAll();
 	}
 	
 	
 	@GetMapping("/getProductDetails/{name}")
-	public SpecificProduct getProductFullDetails(@PathVariable(value="name")String name) throws JsonMappingException, JsonProcessingException
-	{
-		
+	public SpecificProduct getProductFullDetails(@PathVariable(value="name")String name) throws JsonMappingException, JsonProcessingException {
 		SpecificProduct	specificProduct = new SpecificProduct();
 		TestRestTemplate restTemplate =new TestRestTemplate();
 		Library lib = repository.findByName(name);
+
 		specificProduct.setProduct(lib);
+
 		ResponseEntity<String>	response =	restTemplate.getForEntity(baseUrl+"/getCourseByName/"+name, String.class);
-		if(response.getStatusCode().is4xxClientError())
-		{
+
+		if(response.getStatusCode().is4xxClientError()) {
 			specificProduct.setMsg(name +"Category and price details are not available at this time");
 		}
-		else
-		{
-		ObjectMapper mapper = new ObjectMapper();
-	
-		AllCourseDetails allCourseDetails = mapper.readValue(response.getBody(), AllCourseDetails.class);
+		else {
+			ObjectMapper mapper = new ObjectMapper();
+			AllCourseDetails allCourseDetails = mapper.readValue(response.getBody(), AllCourseDetails.class);
 		
-		
-		specificProduct.setCategory(allCourseDetails.getCategory());
-		specificProduct.setPrice(allCourseDetails.getPrice());
-	
+			specificProduct.setCategory(allCourseDetails.getCategory());
+			specificProduct.setPrice(allCourseDetails.getPrice());
 		}
-		return specificProduct;
-		
 
-		
-		
-		
+		return specificProduct;
 	}
 	
 	
 	@CrossOrigin
 	@GetMapping("/getProductPrices")
-	public ProductsPrices getProductPrices() throws JsonMappingException, JsonProcessingException
-	{
+	public ProductsPrices getProductPrices() throws JsonMappingException, JsonProcessingException {
 		productPrices.setBooksPrice(250);
 	
-
 		long sum = 0;
 		for(int i=0;i<getAllCoursesDetails().length;i++)
 		{
@@ -181,14 +163,12 @@ public class LibraryController {
 		
 	return productPrices;
 	}
-	public void setBaseUrl(String url)
-	{
+
+	public void setBaseUrl(String url) {
 		baseUrl = url;
 	}
 	
-	public AllCourseDetails[] getAllCoursesDetails() throws JsonMappingException, JsonProcessingException
-	
-	{
+	public AllCourseDetails[] getAllCoursesDetails() throws JsonMappingException, JsonProcessingException {
 		
 		TestRestTemplate restTemplate =new TestRestTemplate();
 		
@@ -197,9 +177,6 @@ public class LibraryController {
 	
 		AllCourseDetails[] allCourseDetails = mapper.readValue(response.getBody(), AllCourseDetails[].class);
 		return allCourseDetails;
-
-		
-		
 	}
 	
 }

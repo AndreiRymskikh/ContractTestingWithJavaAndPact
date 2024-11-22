@@ -1,7 +1,5 @@
 package com.rahulshettyacademy;
 
-
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,11 +49,8 @@ class SpringBootRestServiceApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	
-	
 	@Test
 	void contextLoads() {
-		
 	}
 	
 	@Test
@@ -66,14 +61,12 @@ class SpringBootRestServiceApplicationTests {
 		assertEquals(id,"OLDZMAN24");
 		String id1 = lib.buildId("MAN", 24);
 		assertEquals(id1,"MAN24");
-		
 	}
 	
 	@Test
 	public void addBookTest()
 	{
 		//mock
-		
 		Library lib = buildLibrary();
 		when(libraryService.buildId(lib.getIsbn(),lib.getAisle())).thenReturn(lib.getId());
 		when(libraryService.checkBookAlreadyExist(lib.getId())).thenReturn(false);
@@ -85,9 +78,7 @@ class SpringBootRestServiceApplicationTests {
 		ad.getId();
 		assertEquals(lib.getId(),ad.getId());
 		assertEquals("Success Book is Added",ad.getMsg());
-		
 		//call Mock service from code
-		
 	}
 	
 	@Test
@@ -97,16 +88,14 @@ class SpringBootRestServiceApplicationTests {
 		ObjectMapper map =new ObjectMapper();
 		String jsonString = map.writeValueAsString(lib);
 		
-		
 		when(libraryService.buildId(lib.getIsbn(),lib.getAisle())).thenReturn(lib.getId());
 		when(libraryService.checkBookAlreadyExist(lib.getId())).thenReturn(false);
 		when(repository.save(any())).thenReturn(lib);
 		
 		this.mockMvc.perform(post("/addBook").contentType(MediaType.APPLICATION_JSON)
 				.content(jsonString)).andDo(print()).andExpect(status().isCreated())
-		.andExpect(jsonPath("$.id").value(lib.getId()));
-		
-		}
+				.andExpect(jsonPath("$.id").value(lib.getId()));
+	}
 	
 	@Test
 	public void getBookByAuthorTest() throws Exception
@@ -119,8 +108,7 @@ class SpringBootRestServiceApplicationTests {
 		.andDo(print()).andExpect(status().isOk()).
 		andExpect(jsonPath("$.length()",is(2))).
 		andExpect(jsonPath("$.[0].id").value("sfe3b"));
-		
-				}
+	}
 	
 	@Test
 	public void updateBookTest() throws Exception
@@ -132,8 +120,8 @@ class SpringBootRestServiceApplicationTests {
 	this.mockMvc.perform(put("/updateBook/"+lib.getId()).contentType(MediaType.APPLICATION_JSON)
 	.content(jsonString)).andDo(print()).andExpect(status().isOk())
 	.andExpect(content().json("{\"book_name\":\"Boot\",\"id\":\"sfe3b\",\"isbn\":\"sfe\",\"aisle\":322,\"author\":\"Shetty\"}"));
-	
 	}
+
 	@Test
 	public void deleteBookControllerTest() throws Exception
 	{
@@ -142,12 +130,7 @@ class SpringBootRestServiceApplicationTests {
 		this.mockMvc.perform(delete("/deleteBook").contentType(MediaType.APPLICATION_JSON)
 		.content("{\"id\" : \"sfe3b\"}")).andDo(print())
 		.andExpect(status().isCreated()).andExpect(content().string("Book is deleted"));
-		
-		
 	}
-	
-	
-	
 	
 	public Library buildLibrary()
 	{
@@ -160,6 +143,7 @@ class SpringBootRestServiceApplicationTests {
 		return lib;
 		
 	}
+
 	public Library UpdateLibrary()
 	{
 		Library lib =new Library();
@@ -169,12 +153,5 @@ class SpringBootRestServiceApplicationTests {
 		lib.setAuthor("Shetty");
 		lib.setId("rain322");
 		return lib;
-		
 	}
-	
-
-	
-	
-	
-
 }

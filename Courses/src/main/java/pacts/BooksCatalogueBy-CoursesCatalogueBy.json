@@ -1,46 +1,56 @@
 {
   "consumer": {
-    "name": "BooksCatalogue"
+    "name": "BooksCatalogueBy"
   },
   "interactions": [
     {
-      "description": "getting all courses details",
+      "description": "Appium course Does not exist",
       "providerStates": [
         {
-          "name": "courses exist"
+          "name": "Course Appium does not exist",
+          "params": {
+            "name": "Appium"
+          }
         }
       ],
       "request": {
         "method": "GET",
-        "path": "/allCourseDetails"
+        "path": "/getCourseByName/Appium"
       },
       "response": {
-        "body": [
-          {
-            "price": 10
-          },
-          {
-            "price": 10
-          },
-          {
-            "price": 10
-          }
-        ],
+        "status": 404
+      }
+    },
+    {
+      "description": "Get the Appium course details",
+      "providerStates": [
+        {
+          "name": "Course Appium exist"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/getCourseByName/Appium"
+      },
+      "response": {
+        "body": {
+          "category": "mobile",
+          "price": 44
+        },
         "headers": {
           "Content-Type": "application/json; charset=UTF-8"
         },
         "matchingRules": {
           "body": {
-            "$": {
+            "$.category": {
               "combine": "AND",
               "matchers": [
                 {
-                  "match": "type",
-                  "min": 3
+                  "match": "type"
                 }
               ]
             },
-            "$[*].price": {
+            "$.price": {
               "combine": "AND",
               "matchers": [
                 {
@@ -74,6 +84,6 @@
     }
   },
   "provider": {
-    "name": "CoursesCatalogue"
+    "name": "CoursesCatalogueBy"
   }
 }

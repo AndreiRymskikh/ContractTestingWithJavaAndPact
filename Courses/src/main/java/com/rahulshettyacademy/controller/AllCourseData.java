@@ -10,14 +10,13 @@ import javax.persistence.Table;
 public class AllCourseData {
     @Column(name="course_name")
 	private String course_name;
-    
     @Column(name="id")
 	private String id;
- 
     @Column(name="price")
 	private int price;
     @Column(name="category")
 	private String category;
+	
     @Id
 	public String getCourse_name() {
 		return course_name;
